@@ -47,4 +47,13 @@ public class ProductDAO extends GenericDAO<Product> {
         //nguoc lai list ma khong empty => co san pham => nam o vi tri dau tien => lay ve vi tri so 0
         return list.isEmpty() ? null : list.get(0);
     }
+
+    public List<Product> findByCategory(String categoryId) {
+        String sql = "SELECT *\n"
+                + "  FROM [dbo].[Product]\n"
+                + "  WHERE [categoryId] = ? ";
+        parameterMap = new LinkedHashMap<>();
+        parameterMap.put("categoryId", categoryId);
+        return queryGenericDAO(Product.class, sql, parameterMap);
+    }
 }

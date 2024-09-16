@@ -60,8 +60,8 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        //get list product dao
-        List<Product> listProduct = productDAO.findAll();
+        List<Product> listProduct = findProductDoGet(request);
+        
         //get list category dao
         List<Category> listCategory = categoryDAO.findAll();
         //set listProduct, listCategory to session
@@ -92,5 +92,22 @@ public class HomeController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private List<Product> findProductDoGet(HttpServletRequest request) {
+        //get ve search
+        String actionSearch = request.getParameter("search") == null
+                ? "Default" : request.getParameter("search");
+        //get list product dao
+        List<Product> listProduct;
+        switch (actionSearch) {
+            case "category":
+                String categoryId = request.getParameter("categoryId");
+                listProduct = productDAO.findByCategory(categoryId);
+                break;
+            default:
+               listProduct = productDAO.findAll();
+        }
+        return listProduct;
+    }
 
 }
