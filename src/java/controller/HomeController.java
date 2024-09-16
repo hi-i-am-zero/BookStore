@@ -5,9 +5,11 @@
 
 package controller;
 
+import constant.CommonConst;
 import dal.implement.CategoryDAO;
 import dal.implement.ProductDAO;
 import entity.Category;
+import entity.PageControl;
 import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -60,14 +62,15 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        List<Product> listProduct = findProductDoGet(request);
-        
+        PageControl pageControl = new PageControl();
+        List<Product> listProduct = findProductDoGet(request, pageControl);
         //get list category dao
         List<Category> listCategory = categoryDAO.findAll();
         //set listProduct, listCategory to session
         HttpSession session = request.getSession();
         session.setAttribute("listProduct", listProduct);
         session.setAttribute("listCategory", listCategory);
+        request.setAttribute("pageControl", pageControl);
         request.getRequestDispatcher("view/homepage/home.jsp").forward(request, response);
     } 
 
@@ -93,24 +96,56 @@ public class HomeController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private List<Product> findProductDoGet(HttpServletRequest request) {
+    private List<Product> findProductDoGet(HttpServletRequest request, PageControl pageControl) {
+        //get ve page
+        String pageRaw = request.getParameter("page");
+        //valid page
+        int page;
+        try {
+            page = Integer.parseInt(pageRaw);
+            if (page <= 0) {
+                page = 1;
+            }
+        } catch (NumberFormatException e) {
+            page = 1;
+        }
         //get ve search
         String actionSearch = request.getParameter("search") == null
                 ? "Default" : request.getParameter("search");
         //get list product dao
         List<Product> listProduct;
+        //get request URL
+        String requestURL = request.getRequestURL().toString();
+        int totalRecord = 0;
         switch (actionSearch) {
             case "category":
                 String categoryId = request.getParameter("categoryId");
-                listProduct = productDAO.findByCategory(categoryId);
+                totalRecord = productDAO.findTotalRecordByCategory(categoryId);
+                listProduct = productDAO.findByCategory(categoryId, page);
+                pageControl.setUrlPattern(requestURL + "?search=category&categoryId=" + categoryId + "&");
                 break;
             case "searchByName":
                 String keyword = request.getParameter("keyword");
-                listProduct = productDAO.findByName(keyword);
+                totalRecord = productDAO.findTotalRecordByName(keyword);
+                listProduct = productDAO.findByName(keyword, page);
+                pageControl.setUrlPattern(requestURL + "?search=searchByName&keyword=" + keyword + "&");
                 break;
             default:
                listProduct = productDAO.findAll();
+               totalRecord = productDAO.findTotalRecord();
+               listProduct = productDAO.findByPage(page);
+               pageControl.setUrlPattern(requestURL + "?");
         }
+        //total record
+        
+        //total page
+        int totalPage = (totalRecord % CommonConst.RECORD_PER_PAGE) == 0
+                ? (totalRecord / CommonConst.RECORD_PER_PAGE)
+                : (totalRecord / CommonConst.RECORD_PER_PAGE) + 1;
+        //set total record, total page, page vao pageControl
+        pageControl.setPage(page);
+        pageControl.setTotalPage(totalPage);
+        pageControl.setTotalRecord(totalRecord);
         return listProduct;
     }
 

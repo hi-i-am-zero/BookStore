@@ -350,7 +350,7 @@
                                                 <h4><a href="#">${p.name}</a></h4>
                                                 <div class="product-price">
                                                     <ul>
-                                                        <li>$60.00</li>
+                                                        <li>$ ${p.price}</li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -618,10 +618,12 @@
                             </div>
                             <div class="page-number">
                                 <ul>
-                                    <li><a href="#" class="active">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
+                                    <c:forEach begin="1" end="${pageControl.totalPage}" var="pageNumber">
+<!--                                    <li><a href="#" class="active">1</a></li>-->
+                                    <li class="${pageNumber == pageControl.page ? 'active' : ''}">
+                                        <a href="${pageControl.urlPattern}page=${pageNumber}">${pageNumber}</a>
+                                    </li>                                   
+                                    </c:forEach>
                                     <li><a href="#" class="angle"><i class="fa fa-angle-right"></i></a></li>
                                 </ul>
                             </div>

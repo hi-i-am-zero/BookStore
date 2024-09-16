@@ -31,7 +31,7 @@
                                 <div class="cart-product">
                                     <div class="single-cart">
                                         <div class="cart-img">
-                                            <a href="#"><<img src="${pageContext.request.contextPath}/img/product/1.jpg" alt="book" /></a>
+                                            <a href="#"><img src="${pageContext.request.contextPath}/img/product/1.jpg" alt="book" /></a>
                                         </div>
                                         <div class="cart-info">
                                             <h5><a href="#">Joust Duffle Bag</a></h5>
