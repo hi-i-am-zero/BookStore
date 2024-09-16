@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller;
+package controller.homepage;
 
 import constant.CommonConst;
 import dal.implement.CategoryDAO;
@@ -68,8 +68,8 @@ public class HomeController extends HttpServlet {
         List<Category> listCategory = categoryDAO.findAll();
         //set listProduct, listCategory to session
         HttpSession session = request.getSession();
-        session.setAttribute("listProduct", listProduct);
-        session.setAttribute("listCategory", listCategory);
+        session.setAttribute(CommonConst.SESSION_PRODUCT, listProduct);
+        session.setAttribute(CommonConst.SESSION_CATEGORY, listCategory);
         request.setAttribute("pageControl", pageControl);
         request.getRequestDispatcher("view/homepage/home.jsp").forward(request, response);
     } 

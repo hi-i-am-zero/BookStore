@@ -4,6 +4,7 @@
     Author     : ASUS
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,106 +37,108 @@
         <!--Navbar-->
         <jsp:include page="../common/admin/navbar.jsp"></jsp:include>
 
-        <div id="wrapper">
+            <div id="wrapper">
 
-            <!-- Sidebar -->
+                <!-- Sidebar -->
             <jsp:include page="../common/admin/sideBar.jsp"></jsp:include>
 
-            <div id="content-wrapper">
+                <div id="content-wrapper">
 
-                <div class="container-fluid">
+                    <div class="container-fluid">
 
-                    <!-- Breadcrumbs-->
+                        <!-- Breadcrumbs-->
                     <jsp:include page="../common/admin/breadcrumbs.jsp"></jsp:include>
 
-                    <!-- Icon Cards-->
+                        <!-- Icon Cards-->
                     <jsp:include page="../common/admin/iconCard.jsp"></jsp:include>
 
 
-                    <!-- DataTables Example -->
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <i class="fas fa-table"></i>
-                            Data Table Example
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        <!-- DataTables Example -->
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <i class="fas fa-table"></i>
+                                Data Table Example
                             </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th width="10%">Name</th>
+                                                <th>Image</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                                <th>Category</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach items="${listProduct}" var="p">
+                                            <tr>
+                                                <td>${p.id}</td>
+                                                <td>${p.name}</td>
+                                                <td>
+                                                    <img src="${p.image}" width="100" height="100" alt="alt"/>
+                                                </td>
+                                                <td>${p.quantity}</td>
+                                                <td>${p.price}$</td>
+                                                <td>
+                                                    <c:forEach items="${listCategory}" var="c">
+                                                        <c:if test="${c.id == p.categoryId}">
+                                                            ${c.name}
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </td>
+                                                <td>${p.description}</td>
+                                            </tr>
+                                        </c:forEach>   
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
                         </div>
-                        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+
                     </div>
+                    <!-- /.container-fluid -->
 
-                </div>
-                <!-- /.container-fluid -->
-
-                <!-- Sticky Footer -->
+                    <!-- Sticky Footer -->
                 <jsp:include page="../common/admin/footer.jsp"></jsp:include>
 
+                </div>
+                <!-- /.content-wrapper -->
+
             </div>
-            <!-- /.content-wrapper -->
+            <!-- /#wrapper -->
 
-        </div>
-        <!-- /#wrapper -->
+            <!-- Scroll to Top Button-->
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
 
-        <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
-
-        <!-- Logout Modal-->
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="login.html">Logout</a>
+            <!-- Logout Modal-->
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <a class="btn btn-primary" href="login.html">Logout</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Bootstrap core JavaScript-->
-        <script src="${pageContext.request.contextPath}/vendor-admin/jquery/jquery.min.js"></script>
+            <!-- Bootstrap core JavaScript-->
+            <script src="${pageContext.request.contextPath}/vendor-admin/jquery/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/vendor-admin/bootstrap/js/bootstrap.bundle.min.js"></script>
 
         <!-- Core plugin JavaScript-->
