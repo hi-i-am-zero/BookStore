@@ -65,10 +65,15 @@ public class ProductDAO extends GenericDAO<Product> {
 
     public List<Product> findByName(String keyword, int page) {
         String sql = "SELECT *\n"
-                + "  FROM [dbo].[Product]\n"
-                + "  WHERE [name] LIKE ? ";
+                + "  FROM [Product]\n"
+                + "  where [name] like ?"
+                + "  ORDER BY [id]\n"
+                + "  OFFSET ? ROWS\n" //( PAGE - 1 ) * Y
+                + "  FETCH NEXT ? ROWS ONLY"; // NUMBER_RECORD_PER_PAGE
         parameterMap = new LinkedHashMap<>();
         parameterMap.put("name", "%" + keyword + "%");
+        parameterMap.put("offset", (page - 1) * CommonConst.RECORD_PER_PAGE);
+        parameterMap.put("fetch", CommonConst.RECORD_PER_PAGE);
         return queryGenericDAO(Product.class, sql, parameterMap);
     }
 
@@ -91,16 +96,16 @@ public class ProductDAO extends GenericDAO<Product> {
     }
 
     public int findTotalRecord() {
-        String sql = "SELECT count(*)\n"
-                + "  FROM Product\n";
+        String sql = "SELECT COUNT(*)\n"
+                + "  FROM [dbo].[Product]\n";
         parameterMap = new LinkedHashMap<>();
         return findTotalRecordGenericDAO(Product.class, sql, parameterMap);
     }
 
     public List<Product> findByPage(int page) {
         String sql = "SELECT *\n"
-                + "  FROM Product\n"
-                + "  ORDER BY id\n"
+                + "  FROM [dbo].[Product]\n"
+                + "  ORDER BY [id]\n"
                 + "  OFFSET ? ROWS\n" //( PAGE - 1 ) * Y
                 + "  FETCH NEXT ? ROWS ONLY"; // NUMBER_RECORD_PER_PAGE
         parameterMap = new LinkedHashMap<>();
