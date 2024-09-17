@@ -30,6 +30,12 @@
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/colReorder-bootstrap4.css">
 
+        <style>
+            .error{
+                color:red;
+            }
+        </style>
+
     </head>
 
     <body id="page-top">
@@ -93,17 +99,17 @@
                                                 <td>${p.description}</td>
                                             </tr>
                                         </c:forEach>   
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
                         </div>
-
+                        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
                     </div>
-                    <!-- /.container-fluid -->
 
-                    <!-- Sticky Footer -->
+                </div>
+                <!-- /.container-fluid -->
+
+                <!-- Sticky Footer -->
                 <jsp:include page="../common/admin/footer.jsp"></jsp:include>
 
                 </div>
@@ -118,24 +124,9 @@
             </a>
 
             <!-- Logout Modal-->
-            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                            <a class="btn btn-primary" href="login.html">Logout</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <jsp:include page="../common/admin/logoutModal.jsp"></jsp:include>
+
+        <jsp:include page="addProductModal.jsp"></jsp:include>
 
             <!-- Bootstrap core JavaScript-->
             <script src="${pageContext.request.contextPath}/vendor-admin/jquery/jquery.min.js"></script>
