@@ -94,6 +94,9 @@ public class ProductAdminServlet extends HttpServlet {
             case "add":
                 addProduct(request);
                 break;
+            case "delete":
+                deleteProduct(request);
+                break;
             default:
 
         }
@@ -156,6 +159,12 @@ public class ProductAdminServlet extends HttpServlet {
         } catch (ServletException | IOException | NumberFormatException ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void deleteProduct(HttpServletRequest request) {
+       //get ve id
+       int id = Integer.parseInt(request.getParameter("id"));
+       pdao.deleteById(id);
     }
 
 }
