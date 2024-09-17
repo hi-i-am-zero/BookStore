@@ -97,6 +97,9 @@ public class ProductAdminServlet extends HttpServlet {
             case "delete":
                 deleteProduct(request);
                 break;
+            case "edit":
+                editProduct(request);
+                break;
             default:
 
         }
@@ -118,11 +121,11 @@ public class ProductAdminServlet extends HttpServlet {
             //get name
             String name = request.getParameter("name");
             //get price
-            int price = Integer.parseInt(request.getParameter("price"));
+            float price = Float.parseFloat(request.getParameter("price"));
             //get quantity
             int quantity = Integer.parseInt(request.getParameter("quantity"));
             //get description
-            String descpriton = request.getParameter("description");
+            String description = request.getParameter("description");
             //get catefory Id
             int categoryId = Integer.parseInt(request.getParameter("category"));
 
@@ -151,7 +154,7 @@ public class ProductAdminServlet extends HttpServlet {
                     .name(name)
                     .price(price)
                     .quantity(quantity)
-                    .description(descpriton)
+                    .description(description)
                     .categoryId(categoryId)
                     .image(imagePath)
                     .build();
@@ -162,9 +165,53 @@ public class ProductAdminServlet extends HttpServlet {
     }
 
     private void deleteProduct(HttpServletRequest request) {
-       //get ve id
-       int id = Integer.parseInt(request.getParameter("id"));
-       pdao.deleteById(id);
+        //get ve id
+        int id = Integer.parseInt(request.getParameter("id"));
+        pdao.deleteById(id);
     }
 
+    private void editProduct(HttpServletRequest request) {
+        try {
+            //get ve data
+            int id = Integer.parseInt(request.getParameter("id"));
+            String name = request.getParameter("name");
+            float price = Float.parseFloat(request.getParameter("price"));
+            int quantity = Integer.parseInt(request.getParameter("quantity"));
+            String description = request.getParameter("description");
+            int categoryId = Integer.parseInt(request.getParameter("category"));
+
+            Part part = request.getPart("image");
+            String imagePath = null;
+            if (part.getSubmittedFileName() == null || part.getSubmittedFileName().trim().isEmpty() || part == null) {
+                imagePath = request.getParameter("currentImage");
+            } else {
+                //duong dan luu anh
+                String path = request.getServletContext().getRealPath("/images");
+                File dir = new File(path);
+                //xem duong dan nay ton tai chua
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+
+                File image = new File(dir, part.getSubmittedFileName());
+                //ghi file vao trong duong dan
+                part.write(image.getAbsolutePath());
+                //lay ra cai context path cua project
+                imagePath = request.getContextPath() + "/images/" + image.getName();
+            }
+
+            Product product = Product.builder()
+                    .id(id)
+                    .name(name)
+                    .price(price)
+                    .quantity(quantity)
+                    .description(description)
+                    .categoryId(categoryId)
+                    .image(imagePath)
+                    .build();
+            pdao.update(product);
+        } catch (NumberFormatException | IOException | ServletException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
