@@ -23,7 +23,7 @@ public class ProductDAO extends GenericDAO<Product> {
 
     @Override
     public int insert(Product t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return insertGenericDAO(t);
     }
 //    public static void main(String[] args) {
 //        for (Product product : new ProductDAO().findAll()) {
