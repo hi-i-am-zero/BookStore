@@ -4,6 +4,7 @@
     Author     : ASUS
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -98,22 +99,21 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        <c:forEach items="${cart.listOrderDetails}" var="od">
+                                            <c:forEach items="${listProduct}" var="product">
+                                                <c:if test="${product.id == od.productId}">
+                                                    <c:set var="p" value="${product}"></c:set>
+                                                </c:if>
+                                            </c:forEach>
                                             <tr>
-                                                <td class="product-thumbnail"><a href="#"><img src="${pageContext.request.contextPath}/img/cart/1.jpg" alt="man" /></a></td>
-                                            <td class="product-name"><a href="#">Vestibulum suscipit</a></td>
-                                            <td class="product-price"><span class="amount">£165.00</span></td>
-                                            <td class="product-quantity"><input type="number" value="1"></td>
-                                            <td class="product-subtotal">£165.00</td>
-                                            <td class="product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="product-thumbnail"><a href="#"><img src="${pageContext.request.contextPath}/img/cart/2.jpg" alt="man" /></a></td>
-                                            <td class="product-name"><a href="#">Vestibulum dictum magna</a></td>
-                                            <td class="product-price"><span class="amount">£50.00</span></td>
-                                            <td class="product-quantity"><input type="number" value="1"></td>
-                                            <td class="product-subtotal">£50.00</td>
-                                            <td class="product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                        </tr>
+                                                <td class="product-thumbnail"><a href="#"><img src="${p.image}" alt="man" /></a></td>
+                                                <td class="product-name"><a href="#">${p.name}</a></td>
+                                                <td class="product-price"><span class="amount">${p.price}</span></td>
+                                                <td class="product-quantity"><input type="number" value="${od.quantity}"></td>
+                                                <td class="product-subtotal">${p.price * od.quantity}</td>
+                                                <td class="product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
+                                            </tr>
+                                        </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -145,7 +145,7 @@
                                     <tr class="cart-subtotal">
                                         <th>Subtotal</th>
                                         <td>
-                                            <span class="amount">£215.00</span>
+                                            <span id="subtotal" class="amount">£215.00</span>
                                         </td>
                                     </tr>
                                     <tr class="shipping">
@@ -153,25 +153,16 @@
                                         <td>
                                             <ul id="shipping_method">
                                                 <li>
-                                                    <input type="radio">
-                                                    <label>
-                                                        Flat Rate:
-                                                        <span class="amount">£7.00</span>
-                                                    </label>
-                                                </li>
-                                                <li>
-                                                    <input type="radio">
                                                     <label> Free Shipping </label>
                                                 </li>
                                             </ul>
-                                            <a href="#">Calculate Shipping</a>
                                         </td>
                                     </tr>
                                     <tr class="order-total">
                                         <th>Total</th>
                                         <td>
                                             <strong>
-                                                <span class="amount">£215.00</span>
+                                                <span id="totalCart" class="amount">£215.00</span>
                                             </strong>
                                         </td>
                                     </tr>
@@ -220,6 +211,20 @@
         <script src="${pageContext.request.contextPath}/js/plugins.js"></script>
         <!-- main js -->
         <script src="${pageContext.request.contextPath}/js/main.js"></script>
+
+        <script>
+            window.onload = updateSubTotal();
+            function updateSubTotal() {
+                let totalPriceOfEachProduct = document.querySelectorAll('form td.product-subtotal');
+                let totalCart = 0;
+                totalPriceOfEachProduct.forEach(e => {
+                    let totalPrice = parseFloat(e.textContent.trim());
+                    totalCart += totalPrice;
+                });
+                document.querySelector('#subtotal').innerHTML = totalCart + "$";
+                document.querySelector('#totalCart').innerHTML = totalCart + "$";
+            }
+        </script>
     </body>
 
     <!-- Mirrored from htmldemo.net/koparion/koparion/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 23 Feb 2024 17:30:45 GMT -->
