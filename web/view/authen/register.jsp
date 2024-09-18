@@ -69,45 +69,48 @@
             <!-- header-area-end -->
             <!-- breadcrumbs-area-start -->
         <jsp:include page="../common/homePage/breadcrumbs-area.jsp"></jsp:include>
-        <!-- breadcrumbs-area-end -->
-        <!-- user-login-area-start -->
-        <div class="user-login-area mb-70">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="login-title text-center mb-30">
-                            <h2>Sign Up</h2>
-                            <p>doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo<br>inventore veritatis et quasi architecto beat</p>
-                        </div>
-                    </div>
-                    <div class="offset-lg-2 col-lg-8 col-md-12 col-12">
-                        <div class="billing-fields">
-                            <div class="single-register">
-                                <form action="authen?action=sign-up" method="POST">
-                                    <label>Account password<span>*</span></label>
-                                    <input type="text" placeholder="Username" />
-                                    <br/>
-                                    <label>Password<span>*</span></label>
-                                    <input type="password" placeholder="Password" />
-                                </form>
+            <!-- breadcrumbs-area-end -->
+            <!-- user-login-area-start -->
+            <div class="user-login-area mb-70">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="login-title text-center mb-30">
+                                <h2>Sign Up</h2>
+                                <p>doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo<br>inventore veritatis et quasi architecto beat</p>
                             </div>
-                            <div class="single-register">
-                                <a href="#">Register</a>
+                        </div>
+                        <div class="offset-lg-2 col-lg-8 col-md-12 col-12">
+                            <div class="billing-fields">
+                                <div class="single-register">
+                                    <form action="authen?action=sign-up" method="POST" id="signUpForm">
+                                        <label>Account password<span>*</span></label>
+                                        <input type="text" placeholder="Username" name="username"/>
+                                        <br/>
+                                        <label>Password<span>*</span></label>
+                                        <input type="password" placeholder="Password" name="password"/>
+                                        <br/>
+                                        <span style="color: red">${error}</span>
+                                    </form>
+                                </div>
+                                <div class="single-register">
+                                    <a href="#"
+                                       onclick="document.querySelector('#signUpForm').submit()">Register</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- user-login-area-end -->
-        <!-- footer-area-start -->
+            <!-- user-login-area-end -->
+            <!-- footer-area-start -->
         <jsp:include page="../common/homePage/footer.jsp"></jsp:include>
-        <!-- footer-area-end -->
+            <!-- footer-area-end -->
 
 
-        <!-- all js here -->
-        <!-- jquery latest version -->
-        <script src="${pageContext.request.contextPath}/js/vendor/jquery-1.12.4.min.js"></script>
+            <!-- all js here -->
+            <!-- jquery latest version -->
+            <script src="${pageContext.request.contextPath}/js/vendor/jquery-1.12.4.min.js"></script>
 
 
         <!-- bootstrap js -->
