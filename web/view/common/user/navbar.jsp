@@ -1,6 +1,6 @@
 <%-- 
-    Document   : navbar.jsp
-    Created on : Sep 17, 2024, 3:15:09 AM
+    Document   : navbar
+    Created on : Sep 18, 2024, 3:06:28 PM
     Author     : ASUS
 --%>
 
@@ -67,5 +67,4 @@
             </div>
         </li>
     </ul>
-
 </nav>
