@@ -40,19 +40,19 @@
 
     <body id="page-top">
 
-        <jsp:include page="../common/user/navbar.jsp"></jsp:include>
+        <jsp:include page="../../common/user/navbar.jsp"></jsp:include>
 
             <div id="wrapper">
 
                 <!-- Sidebar -->
-            <jsp:include page="../common/user/sideBar.jsp"></jsp:include>
+            <jsp:include page="../../common/user/sideBar.jsp"></jsp:include>
 
                 <div id="content-wrapper">
 
                     <div class="container-fluid">
 
                         <!-- Breadcrumbs-->
-                    <jsp:include page="../common/user/breadCrumb.jsp"></jsp:include>
+                    <jsp:include page="../../common/user/breadCrumb.jsp"></jsp:include>
 
 
 
@@ -95,7 +95,7 @@
                     <!-- /.container-fluid -->
 
                     <!-- Sticky Footer -->
-                <jsp:include page="../common/user/footer.jsp"></jsp:include>
+                <jsp:include page="../../common/user/footer.jsp"></jsp:include>
 
 
                 </div>
@@ -106,7 +106,7 @@
 
 
             <!-- Logout Modal-->
-        <jsp:include page="../common/user/logOutModal.jsp"></jsp:include>
+        <jsp:include page="../../common/user/logOutModal.jsp"></jsp:include>
 
 
             <!-- Bootstrap core JavaScript-->
