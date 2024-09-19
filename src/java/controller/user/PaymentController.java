@@ -78,9 +78,13 @@ public class PaymentController extends HttpServlet {
             case "add-product":
                 addProduct(request, response);
                 break;
+            case "change-quantity":
+                changeQuantity(request, response);
+                break;
             default:
                 throw new AssertionError();
         }
+        response.sendRedirect("payment");
     }
 
     /**
@@ -113,7 +117,6 @@ public class PaymentController extends HttpServlet {
         addOrderDetailsToOrder(od, cart);
         //set cart moi len session
         session.setAttribute("cart", cart);
-        response.sendRedirect("payment");
     }
 
     private void addOrderDetailsToOrder(OrderDetails od, Order cart) {
@@ -127,6 +130,30 @@ public class PaymentController extends HttpServlet {
         if (isAdd == false) {
             cart.getListOrderDetails().add(od);
         }
+    }
+
+    private void changeQuantity(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        try {
+        //get ve product id
+            int id = Integer.parseInt(request.getParameter("id"));
+            //get ve quantity
+            int quantity = Integer.parseInt(request.getParameter("quantity"));
+        //lay ve cart
+        Order cart = (Order) session.getAttribute("cart");
+        //thay doi quantity
+            for (OrderDetails obj : cart.getListOrderDetails()) {
+                if (obj.getProductId() == id) {
+                    obj.setQuantity(quantity);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
+        
+        
     }
 
 }
