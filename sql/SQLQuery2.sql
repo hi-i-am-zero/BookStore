@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [BookStore]    Script Date: 9/16/2024 1:20:50 PM ******/
+/****** Object:  Database [BookStore]    Script Date: 9/19/2024 6:24:09 PM ******/
 CREATE DATABASE [BookStore]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -84,7 +84,25 @@ ALTER DATABASE [BookStore] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP
 GO
 USE [BookStore]
 GO
-/****** Object:  Table [dbo].[Category]    Script Date: 9/16/2024 1:20:51 PM ******/
+/****** Object:  Table [dbo].[Account]    Script Date: 9/19/2024 6:24:09 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Account](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[username] [nvarchar](150) NULL,
+	[password] [nvarchar](150) NULL,
+	[email] [nvarchar](max) NULL,
+	[address] [nvarchar](max) NULL,
+	[roleId] [int] NULL,
+ CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Category]    Script Date: 9/19/2024 6:24:09 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -98,7 +116,39 @@ CREATE TABLE [dbo].[Category](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Product]    Script Date: 9/16/2024 1:20:51 PM ******/
+/****** Object:  Table [dbo].[Order]    Script Date: 9/19/2024 6:24:09 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Order](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[amount] [int] NULL,
+	[accountId] [int] NOT NULL,
+	[createdAt] [datetime] NULL,
+ CONSTRAINT [PK_Order] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[OrderDetails]    Script Date: 9/19/2024 6:24:09 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[OrderDetails](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[quantity] [int] NULL,
+	[productId] [int] NOT NULL,
+	[orderId] [int] NOT NULL,
+ CONSTRAINT [PK_OrderDetails] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Product]    Script Date: 9/19/2024 6:24:09 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -117,6 +167,28 @@ CREATE TABLE [dbo].[Product](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
+/****** Object:  Table [dbo].[Role]    Script Date: 9/19/2024 6:24:09 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Role](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Role] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Account] ON 
+GO
+INSERT [dbo].[Account] ([id], [username], [password], [email], [address], [roleId]) VALUES (1, N'user', N'1', N'123', N'123', 2)
+GO
+INSERT [dbo].[Account] ([id], [username], [password], [email], [address], [roleId]) VALUES (2, N'user', N'123', N'123', N'123', 1)
+GO
+SET IDENTITY_INSERT [dbo].[Account] OFF
+GO
 SET IDENTITY_INSERT [dbo].[Category] ON 
 GO
 INSERT [dbo].[Category] ([id], [name]) VALUES (1, N'văn học')
@@ -129,9 +201,15 @@ INSERT [dbo].[Category] ([id], [name]) VALUES (4, N'chính trị')
 GO
 SET IDENTITY_INSERT [dbo].[Category] OFF
 GO
+SET IDENTITY_INSERT [dbo].[OrderDetails] ON 
+GO
+INSERT [dbo].[OrderDetails] ([id], [quantity], [productId], [orderId]) VALUES (1, 4, 2, 0)
+GO
+SET IDENTITY_INSERT [dbo].[OrderDetails] OFF
+GO
 SET IDENTITY_INSERT [dbo].[Product] ON 
 GO
-INSERT [dbo].[Product] ([id], [name], [image], [quantity], [price], [description], [categoryId]) VALUES (1, N'One Way Passage', N'http://dummyimage.com/182x201.png/5fa2dd/ffffff', 58, 4, N'5th Floor', 3)
+INSERT [dbo].[Product] ([id], [name], [image], [quantity], [price], [description], [categoryId]) VALUES (1, N'One Way Passage', N'/BookStore/images/z5823756177648_99d84ffa94dfee6c13feda2279da42bd.jpg', 58, 4, N'5th Floor', 3)
 GO
 INSERT [dbo].[Product] ([id], [name], [image], [quantity], [price], [description], [categoryId]) VALUES (2, N'Light Years Away', N'http://dummyimage.com/199x188.png/ff4444/ffffff', 64, 64, N'Room 53', 3)
 GO
@@ -331,7 +409,24 @@ INSERT [dbo].[Product] ([id], [name], [image], [quantity], [price], [description
 GO
 INSERT [dbo].[Product] ([id], [name], [image], [quantity], [price], [description], [categoryId]) VALUES (100, N'Willard', N'http://dummyimage.com/242x163.png/5fa2dd/ffffff', 85, 64, N'17th Floor', 2)
 GO
+INSERT [dbo].[Product] ([id], [name], [image], [quantity], [price], [description], [categoryId]) VALUES (101, N'new', N'/BookStore/images/20240913_220323.jpg', 13, 12, N'jpd2', 1)
+GO
+INSERT [dbo].[Product] ([id], [name], [image], [quantity], [price], [description], [categoryId]) VALUES (102, N'new1', N'/BookStore/images/20240913_220615.jpg', 13, 4, N'jpd2', 1)
+GO
 SET IDENTITY_INSERT [dbo].[Product] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Role] ON 
+GO
+INSERT [dbo].[Role] ([id], [name]) VALUES (1, N'admin')
+GO
+INSERT [dbo].[Role] ([id], [name]) VALUES (2, N'user')
+GO
+SET IDENTITY_INSERT [dbo].[Role] OFF
+GO
+ALTER TABLE [dbo].[Account]  WITH CHECK ADD  CONSTRAINT [FK_Account_Role] FOREIGN KEY([roleId])
+REFERENCES [dbo].[Role] ([id])
+GO
+ALTER TABLE [dbo].[Account] CHECK CONSTRAINT [FK_Account_Role]
 GO
 ALTER TABLE [dbo].[Product]  WITH CHECK ADD  CONSTRAINT [FK_Product_Category] FOREIGN KEY([categoryId])
 REFERENCES [dbo].[Category] ([id])
