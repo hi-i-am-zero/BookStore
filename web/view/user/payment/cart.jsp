@@ -114,7 +114,12 @@
                                                     <input type="number" name="quantity" value="${od.quantity}" onchange="return this.closest('form').submit()"></td>
                                                 </form>
                                             <td class="product-subtotal">${p.price * od.quantity}</td>
-                                            <td class="product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
+                                            <td class="product-remove">
+                                                <form action="payment?action=delete" method="POST">
+                                                    <input type="hidden" name="id" value="${p.id}">
+                                                    <a href="#" onclick="return this.closest('form').submit()"><i class="fa fa-times"></i></a>
+                                                </form>
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
