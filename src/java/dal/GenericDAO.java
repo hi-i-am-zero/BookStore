@@ -10,6 +10,7 @@ package dal;
  */
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -231,6 +232,8 @@ public abstract class GenericDAO<T> extends DBContext {
             return rs.getBoolean(fieldName);
         } else if (fieldType == float.class || fieldType == Float.class) {
             return rs.getFloat(fieldName);
+        } else if ( fieldType == Timestamp.class) {
+            return rs.getTimestamp(fieldName);
         } else {
             return rs.getObject(fieldName);
         }

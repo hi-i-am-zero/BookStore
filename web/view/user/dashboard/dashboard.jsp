@@ -67,34 +67,46 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Position</th>
-                                                <th>Office</th>
-                                                <th>Age</th>
-                                                <th>Start date</th>
-                                                <th>Salary</th>
+                                                <th>Id</th>
+                                                <th width="10%">Name</th>
+                                                <th>Image</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                                <th>Category</th>
+                                                <th>Description</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        <c:forEach items="${listProduct}" var="p">
                                             <tr>
-                                                <td>Tiger Nixon</td>
-                                                <td>System Architect</td>
-                                                <td>Edinburgh</td>
-                                                <td>61</td>
-                                                <td>2011/04/25</td>
-                                                <td>$320,800</td>
+                                                <td name="id">${p.id}</td>
+                                                <td name="name">${p.name}</td>
+                                                <td name="image">
+                                                    <img src="${p.image}" width="100" height="100" alt="alt"/>
+                                                </td>
+                                                <td name="quantity">${p.quantity}</td>
+                                                <td name="price">${p.price}$</td>
+                                                <td name="category">
+                                                    <c:forEach items="${listCategory}" var="c">
+                                                        <c:if test="${c.id == p.categoryId}">
+                                                            ${c.name}
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </td>
+                                                <td name="description">${p.description}</td>
                                             </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        </c:forEach>   
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
                         </div>
-
+                        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
                     </div>
-                    <!-- /.container-fluid -->
 
-                    <!-- Sticky Footer -->
+                </div>
+                <!-- /.container-fluid -->
+
+                <!-- Sticky Footer -->
                 <jsp:include page="../../common/user/footer.jsp"></jsp:include>
 
 

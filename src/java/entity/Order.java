@@ -4,7 +4,6 @@
  */
 package entity;
 
-import java.security.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -14,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import java.sql.Timestamp;
 
 /**
  *
@@ -30,6 +30,6 @@ public class Order {
     private int id;
     private int amount;
     private int accountId;
-    private Timestamp creatAt;
+    private Timestamp createAt;
     List<OrderDetails> listOrderDetails = new ArrayList<>();
 }
